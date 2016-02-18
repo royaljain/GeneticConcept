@@ -16,7 +16,6 @@ Copyright 2012 Ashwin Panchapakesan
 
 from itertools import izip
 from Genetic.individual import Individual #@UnusedImport # import only for contract checking
-from sklearn.naive_bayes import GaussianNB
 import variables as v
 
 
@@ -44,6 +43,7 @@ def score(p, scorefuncs, scorefuncparams, SCORES):
 def scoreAccuracy(p):
 
 	clf = p.chromosomes[0]
+	#print(type(clf))
 	sc  = clf.score(v.fitnessX,v.fitnessY)
 	return sc
 

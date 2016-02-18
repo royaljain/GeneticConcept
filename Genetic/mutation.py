@@ -14,6 +14,7 @@ Copyright 2012 Ashwin Panchapakesan
    limitations under the License.
 '''
 import random
+import math
 import numpy as np
 from random import randint, choice as choose, sample, shuffle
 from Genetic.individual import Individual
@@ -66,3 +67,58 @@ def mutate2(p,s,Y):
 	
 	return answer
 
+def mutate3(p,s,Y):
+
+	
+	if random.random() < 0.5:
+		p.chromosomes[0].coef_ = s* p.chromosomes[0].coef_
+		p.chromosomes[0].intercept_ = s* p.chromosomes[0].intercept_
+	
+	else:
+		p.chromosomes[0].coef_ = (2-s)* p.chromosomes[0].coef_
+		p.chromosomes[0].intercept_ = (2-s)* p.chromosomes[0].intercept_
+
+	answer = Individual(p.chromosomes[:])
+	
+	return answer
+
+
+def mutate4(p,s,Y):
+
+		
+	if random.random() < 0.5:
+		p.chromosomes[0].coef_ = s* p.chromosomes[0].coef_
+	
+	else:
+		p.chromosomes[0].coef_ = (2-s)* p.chromosomes[0].coef_
+
+	answer = Individual(p.chromosomes[:])
+	
+	return answer
+
+def mutate5(p,s,Y):
+
+
+	ang = 1.57*(1-s)
+	
+	u  = p.chromosomes[0].coef_ = s* p.chromosomes[0].coef_[0]
+
+
+	n = len(u)
+
+	d =  random.random()
+
+	for i in range(0,n):
+		if d < i/(1.0/n):
+
+			k = np.zeros((n,0))
+			k[i] = 1
+
+			result =  u*math.cos(ang) + np.cross(k,u)*math.sin(ang) + k*(np.dot(k,u))(1-math.cos(ang))	
+			p_new1.chromosomes[0].coef_ = np.array([result])
+			break
+	
+
+	answer = Individual(p.chromosomes[:])
+	
+	return answer

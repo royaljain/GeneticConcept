@@ -18,6 +18,7 @@ from Genetic.individual import Individual
 from random import randint, sample
 import numpy as np
 import Genetic.variables as v
+import math
 
 def dummy():
 	pass
@@ -74,5 +75,78 @@ def cross2(p1,p2,i,c1,c2):
 	return [p_new1,p_new2]
 
 
+
+
+def cross3(p1,p2,i,c1,c2):
+
+	p_new1 = v.genCharsChrom(i)
+	p_new2 = v.genCharsChrom(i)
+
+	tot = c1+c2
+
+	c1 = c1/(1.0*tot)
+	c2 = c2/(1.0*tot)
+
+
+	p_new1.chromosomes[0].coef_ = c1*p1.chromosomes[0].coef_ + c2*p2.chromosomes[0].coef_
+	p_new1.chromosomes[0].intercept_ = c1*p1.chromosomes[0].intercept_ + c2*p2.chromosomes[0].intercept_
+
+	return [p_new1,p_new2]
+
+
+
+def cross4(p1,p2,i,c1,c2):
+
+
+	p_new1 = v.genCharsChrom(i)
+	p_new2 = v.genCharsChrom(i)
+
+	u = p1.chromosomes[0].coef_[0]
+	w = p2.chromosomes[0].coef_[0]
+
+
+	modu = np.linalg.norm(u)
+	modw = np.linalg.norm(w)
+	
+	u = u/modu
+	w = w/modw
+
+	#print(u)
+	#print(w)
+
+
+	a = np.dot(u,w)
+
+	if a >= 1 or a <= -1:
+
+		return [p_new1,p_new2]
+
+	else:	
+
+		#print(a)
+		degree = math.acos(a)
+
+		tot = c1+c2
+
+		ang = c1*degree/(c1+c2)
+
+
+		
+
+		w_ = w - (u*(np.dot(u,w)))
+
+		w_ = w_/(np.linalg.norm(w_))
+
+
+		#print(ang)
+
+		result = math.cos(ang) * u + math.sin(ang) * w_
+
+		p_new1.chromosomes[0].coef_ = np.array([result])
+
+		#print(p_new1.chromosomes[0].coef_)
+		#print(p_new2.chromosomes[0].coef_)
+		
+		return [p_new1,p_new2]
 
 

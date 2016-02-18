@@ -8,14 +8,17 @@ from random import choice as choose, sample
 from random import random
 import numpy as np
 from sklearn.naive_bayes import GaussianNB
-
+from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.linear_model import SGDClassifier
 
 def comp(diff,maxGen):
 
-	df = pd.read_csv('Genetic/Data/simStaggerData.csv',header=False)
+	df = pd.read_csv('Genetic/Data/elecTrainData.csv',header=0)
 
-	dfY = df.iloc[:,3]
-	dfX = df.iloc[:,0:3]
+	dfY = df.iloc[:,9]
+	dfX = df.iloc[:,1:9]
+
+	dfX = (dfX - dfX.mean())
 
 	#print(dfY)
 	#print(dfX)
@@ -34,7 +37,7 @@ def comp(diff,maxGen):
 	y = Y[l]
 
 
-	clf =  GaussianNB()
+	clf =  PassiveAggressiveClassifier()
 
 	clf = clf.partial_fit(x,y,[-1,1])
 
@@ -61,5 +64,3 @@ def comp(diff,maxGen):
 		i = i+1
 
 	return acc
-
-

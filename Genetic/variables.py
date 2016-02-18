@@ -6,26 +6,29 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import Genetic.comparison as comparison
 from Genetic.individual import Individual
-
-
+from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import PassiveAggressiveClassifier
 PopGenX,PopGenY,fitnessX,fitnessY,start,end ,df,dfX, dfY, delta , lis,nam,maxGens,f,readfile,writefile = [0]*16
 
 def init(diff,m):
 
 	global PopGenX,PopGenY,fitnessX,fitnessY,start,end ,df,dfX, dfY, delta , lis,nam,maxGens,f,readfile,writefile
 
-	readfile = 'Genetic/Data/simStaggerData.csv'
-	writefile = "Genetic/Results/StaggerDataresults.txt"
+	readfile = 'Genetic/Data/elecTrainData.csv'
+	writefile = "Genetic/ResultsPA/elecDataresults.txt"
 
 
-	df = pd.read_csv(readfile,header=False)
+	df = pd.read_csv(readfile,header=0)
 	f = open(writefile,"w")
 
 	nam = []
 	lis = []
 
-	dfY = df.iloc[:,3]
-	dfX = df.iloc[:,0:3]
+	dfY = df.iloc[:,9]
+	dfX = df.iloc[:,1:9]
+
+
+	dfX = (dfX - dfX.mean())
 
 	#print(dfY)
 	#print(dfX)
@@ -56,7 +59,7 @@ def genCharsChrom(genNum):
 	y = PopGenY[l]
 
 
-	clf =  GaussianNB()
+	clf =  PassiveAggressiveClassifier()
 
 	clf = clf.partial_fit(x,y,[1,-1])
 
