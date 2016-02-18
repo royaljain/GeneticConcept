@@ -26,7 +26,7 @@ def listOfSettings():
 
 	cross  = [(crossover.cross1,"CROSS1"),(crossover.cross2,"CROSS2")]
 	mut  = [(mutation.mutate1,"MUT1"),(mutation.mutate2,"MUT2")]
-	diff = [50,100,200]
+	diff = [2,3,4]
 	
 	#cross  = [(crossover.cross1,"CROSS1")]
 	#mut  = [(mutation.mutate2,"MUT2")]
@@ -48,7 +48,7 @@ def listOfSettings():
 
 def getOneMaxSettings(c,m,d):
 	
-	maxGens = 5
+	maxGens = 1001
 	targetscore = 30
 	popsize = 100
 	alleles0 = '01'

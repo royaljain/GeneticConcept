@@ -14,21 +14,21 @@ def init(diff,m):
 
 	global PopGenX,PopGenY,fitnessX,fitnessY,start,end ,df,dfX, dfY, delta , lis,nam,maxGens,f,readfile,writefile
 
-	readfile = 'Genetic/Data/dataLU.csv'
-	writefile = "Genetic/Results/LUDataresults.txt"
+	readfile = 'Genetic/Data/simStaggerData.csv'
+	writefile = "Genetic/Results/StaggerDataresults.txt"
 
 
-	df = pd.read_csv(readfile,header=True)
+	df = pd.read_csv(readfile,header=False)
 	f = open(writefile,"w")
 
 	nam = []
 	lis = []
 
-	dfY = df.iloc[:,32]
-	dfX = df.iloc[:,1:32]
+	dfY = df.iloc[:,3]
+	dfX = df.iloc[:,0:3]
 
-	print(dfY)
-	print(dfX)
+	#print(dfY)
+	#print(dfX)
 
 	delta = diff
 	maxGens = m
