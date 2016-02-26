@@ -14,18 +14,19 @@ def init(diff,m):
 
 	global PopGenX,PopGenY,fitnessX,fitnessY,start,end ,df,dfX, dfY, delta , lis,nam,maxGens,f,readfile,writefile
 
-	readfile = 'Genetic/Data/elecTrainData.csv'
-	writefile = "Genetic/ResultsPA/elecDataresults.txt"
+	readfile = 'Genetic/Data/simStaggerData.csv'
+	writefile = "Genetic/ResultsPA/StaggerDataresults.txt"
+	#writefile = "Genetic/ResultsNB/fitness_StaggerDataresults1.txt"
 
 
-	df = pd.read_csv(readfile,header=0)
+	df = pd.read_csv(readfile,header=False)
 	f = open(writefile,"w")
 
-	nam = []
+	nam = []	
 	lis = []
 
-	dfY = df.iloc[:,9]
-	dfX = df.iloc[:,1:9]
+	dfY = df.iloc[:,3]
+	dfX = df.iloc[:,0:3]
 
 
 	dfX = (dfX - dfX.mean())
@@ -58,10 +59,25 @@ def genCharsChrom(genNum):
 	x = PopGenX[l]
 	y = PopGenY[l]
 
-
-	clf =  PassiveAggressiveClassifier()
+	clf =  PassiveAggressiveClassifier(fit_intercept = False)
+	#clf =  GaussianNB()
 
 	clf = clf.partial_fit(x,y,[1,-1])
+
+	return Individual([clf,genNum])
+
+
+
+def genCharsChromWhole(genNum):
+	
+	global PopGenX,PopGenY,fitnessX,fitnessY,start,end ,df,dfX, dfY, delta , lis,nam,maxGens,f
+
+	#print(size)
+
+	clf =  PassiveAggressiveClassifier(fit_intercept = False)
+	#clf =  GaussianNB()
+
+	clf = clf.partial_fit(PopGenX,PopGenY,[1,-1])
 
 	return Individual([clf,genNum])
 

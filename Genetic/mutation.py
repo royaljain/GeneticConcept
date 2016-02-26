@@ -18,6 +18,8 @@ import math
 import numpy as np
 from random import randint, choice as choose, sample, shuffle
 from Genetic.individual import Individual
+import variables as v
+
 
 def mutate1(p,s,Y):
 
@@ -32,6 +34,26 @@ def mutate1(p,s,Y):
 				mat[i][j] = 0.5* mat[i][j]
 			else:
 				mat[i][j] = 2* mat[i][j]
+
+	clf.theta_ = mat
+
+	p.chromosomes[0] = clf
+
+	answer = Individual(p.chromosomes[:])
+
+	return answer
+
+def mutate8(p,s,Y):
+
+	clf = p.chromosomes[0]
+
+	mat = clf.theta_
+
+
+	for i in range(0,len(mat)):
+		for j  in range(0,len(mat[0])):
+			if random.random() < 0.5:
+				mat[i][j] = (1+s)* mat[i][j]
 
 	clf.theta_ = mat
 
@@ -115,8 +137,47 @@ def mutate5(p,s,Y):
 			k[i] = 1
 
 			result =  u*math.cos(ang) + np.cross(k,u)*math.sin(ang) + k*(np.dot(k,u))(1-math.cos(ang))	
-			p_new1.chromosomes[0].coef_ = np.array([result])
+			p.chromosomes[0].coef_ = np.array([result])
 			break
+	
+
+	answer = Individual(p.chromosomes[:])
+	
+	return answer
+
+
+def mutate6(p,s,Y):
+
+
+	u  = p.chromosomes[0].coef_[0]
+	a = np.random.random_integers(0,len(u)-1)
+
+
+	if random.random() < 0.5:
+		
+		u[a] = u[a] * (2-s)
+	
+	else:
+		
+		u[a] = u[a]*s
+
+	p.chromosomes[0].coef_ = np.array([u])
+	
+
+	answer = Individual(p.chromosomes[:])
+	
+	return answer
+
+
+
+def mutate7(p,s,Y):
+
+
+	p_new = v.genCharsChromWhole(p.chromosomes[1])
+
+
+	p.chromosomes[0].coef_ = (1-s)*p_new.chromosomes[0].coef_  + s*p.chromosomes[0].coef_
+	p.chromosomes[0].intercept_ = (1-s)*p_new.chromosomes[0].intercept_ + s*p.chromosomes[0].intercept_
 	
 
 	answer = Individual(p.chromosomes[:])

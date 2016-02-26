@@ -24,13 +24,15 @@ import pygame as pg #@UnresolvedImport
 
 def listOfSettings():
 
-	cross  = [(crossover.cross3,"CROSS3"),(crossover.cross4,"CROSS4")]
-	mut  = [(mutation.mutate4,"MUT4"),(mutation.mutate3,"MUT3")]
-	diff = [50,100,200]
+	cross  = [(crossover.cross6,"CROSS6")]
+	mut  = [(mutation.mutate7,"MUT7")]
+	diff = [2,3,4]
 	
+
 	#cross  = [(crossover.cross1,"CROSS1")]
 	#mut  = [(mutation.mutate2,"MUT2")]
-	#diff = [50]
+	#diff = [2,3,4]
+
 
 
 	l = []
@@ -48,7 +50,7 @@ def listOfSettings():
 
 def getOneMaxSettings(c,m,d):
 	
-	maxGens = 1001
+	maxGens = 1000
 	targetscore = 30
 	popsize = 100
 	alleles0 = '01'

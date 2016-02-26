@@ -17,10 +17,171 @@ Copyright 2012 Ashwin Panchapakesan
 from itertools import izip
 from Genetic.individual import Individual #@UnusedImport # import only for contract checking
 import variables as v
+import numpy
+from numpy import random 
+from sklearn.metrics import f1_score,accuracy_score
 
 
 def dummy():
 	pass
+
+
+def scoreBest2(pop,SCORES):
+
+	cond  = v.start
+	examples = 100
+	features = 3
+	mat = numpy.zeros((examples,features+1))
+
+	for i in range(0,examples):
+
+		x1 = random.random()*10.0;
+		x2 = random.random()*10.0;
+		x3 = random.random()*10.0; 
+
+		mat[i][0] = x1
+		mat[i][1] = x2
+		mat[i][2] = x3
+
+		if cond < 12500:
+			b = 8
+
+		elif cond < 25000:
+			b = 9
+
+		elif cond < 37500:
+			b = 7
+
+		else:
+			b = 9.5
+
+
+
+		if x1 + x2 <= b: 
+			mat[i][3] = 1
+		else:
+			mat[i][3] = -1
+			
+
+
+
+	fittest = max(pop, key=SCORES.__getitem__)
+	fittest = fittest, SCORES[fittest]
+
+	#print(fittest[0].chromosomes[0].coef_)
+	#print(fittest[0].chromosomes[0].intercept_)
+
+	return fittest[0].chromosomes[0].score(mat[:,0:3],mat[:,3])
+
+
+
+
+def scoreBest1(pop,SCORES):
+
+
+	cond  = v.start
+	examples = 100
+	features = 3
+	mat = numpy.zeros((examples,features+1))
+
+	for i in range(0,examples):
+
+		x1 = random.randint(0,3)
+		x2 = random.randint(0,3)
+		x3 = random.randint(0,3)
+
+		mat[i][0] = x1
+		mat[i][1] = x2
+		mat[i][2] = x3
+
+		if cond < 40:
+			if x1 == 2 and x3 == 0:
+				mat[i][3] = 1
+			else:
+				mat[i][3] = -1
+
+		elif cond < 80:
+			if x1 == 0 or x2 == 1:
+				mat[i][3] = 1
+			else:
+				mat[i][3] = -1
+
+		elif cond < 120:
+			if x3 == 1 and x3 == 2:
+				mat[i][3] = 1
+			else:
+				mat[i][3] = -1
+	
+	'''		
+
+	sorted(pop,key = scoreAccuracy)
+
+
+	X = mat[:,0:3]
+	Y = mat[:,3]
+
+	fit1 = pop[0]
+	fit2 = pop[1]
+	fit3 = pop[2]
+	fit4 = pop[3]
+	fit5 = pop[4]
+
+	out1 = fit1.chromosomes[0].predict(X)
+	out2 = fit2.chromosomes[0].predict(X)
+	out3 = fit3.chromosomes[0].predict(X)
+	out4 = fit4.chromosomes[0].predict(X)
+	out5 = fit5.chromosomes[0].predict(X)
+
+	out = out1 + out2 + out3 + out4 + out5  
+
+	for i in range(0,len(out)):
+		if out[i] > 0:
+			out[i] = 1
+		else:
+			out[i] = -1
+
+	return accuracy_score(Y,out)
+
+	'''
+
+	fittest = max(pop, key=SCORES.__getitem__)
+	fittest = fittest, SCORES[fittest]
+
+	#print(fittest[0].chromosomes[0].coef_)
+	#print(fittest[0].chromosomes[0].intercept_)
+
+
+	#return f1_score(mat[:,3],fittest[0].chromosomes[0].predict(mat[0:2]))
+	return fittest[0].chromosomes[0].score(mat[:,0:3],mat[:,3])
+	
+
+def scoreBestE(pop,SCORES):
+
+	sorted(pop,key = scoreAccuracy)
+
+	fit1 = pop[0]
+	fit2 = pop[1]
+	fit3 = pop[2]
+	fit4 = pop[3]
+	fit5 = pop[4]
+
+	out1 = fit1.chromosomes[0].predict(v.fitnessX)
+	out2 = fit2.chromosomes[0].predict(v.fitnessX)
+	out3 = fit3.chromosomes[0].predict(v.fitnessX)
+	out4 = fit4.chromosomes[0].predict(v.fitnessX)
+	out5 = fit5.chromosomes[0].predict(v.fitnessX)
+
+	out = out1 + out2 + out3 + out4 + out5  
+
+	for i in range(0,len(out)):
+		if out[i] > 0:
+			out[i] = 1
+		else:
+			out[i] = -1
+
+	return accuracy_score(v.fitnessY,out)
+	#return f1_score(v.fitnessY,fittest[0].chromosomes[0].predict(v.fitnessX))
+
 
 def scoreBest(pop,SCORES):
 
@@ -28,8 +189,7 @@ def scoreBest(pop,SCORES):
 	fittest = fittest, SCORES[fittest]
 
 	return fittest[0].chromosomes[0].score(v.fitnessX,v.fitnessY)
-
-
+	#return f1_score(v.fitnessY,fittest[0].chromosomes[0].predict(v.fitnessX))
 
 
 def score(p, scorefuncs, scorefuncparams, SCORES):
@@ -45,6 +205,7 @@ def scoreAccuracy(p):
 	clf = p.chromosomes[0]
 	#print(type(clf))
 	sc  = clf.score(v.fitnessX,v.fitnessY)
+	#sc = f1_score(v.fitnessY,clf.predict(v.fitnessX))
 	return sc
 
 

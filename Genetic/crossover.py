@@ -91,6 +91,11 @@ def cross3(p1,p2,i,c1,c2):
 	p_new1.chromosomes[0].coef_ = c1*p1.chromosomes[0].coef_ + c2*p2.chromosomes[0].coef_
 	p_new1.chromosomes[0].intercept_ = c1*p1.chromosomes[0].intercept_ + c2*p2.chromosomes[0].intercept_
 
+
+	p_new2.chromosomes[0].coef_ = p1.chromosomes[0].coef_ + p2.chromosomes[0].coef_
+	p_new2.chromosomes[0].intercept_ = p1.chromosomes[0].intercept_ + p2.chromosomes[0].intercept_
+
+
 	return [p_new1,p_new2]
 
 
@@ -128,7 +133,7 @@ def cross4(p1,p2,i,c1,c2):
 
 		tot = c1+c2
 
-		ang = c1*degree/(c1+c2)
+		ang = c2*degree/(c1+c2)
 
 
 		
@@ -150,3 +155,60 @@ def cross4(p1,p2,i,c1,c2):
 		return [p_new1,p_new2]
 
 
+
+def cross5(p1,p2,i,c1,c2):
+
+
+	p_new1 = v.genCharsChrom(i)
+	p_new2 = v.genCharsChrom(i)
+	p_new3 = v.genCharsChrom(i)
+	p_new4 = v.genCharsChrom(i)
+
+	'''
+
+	u = p1.chromosomes[0].coef_[0]
+	w = p2.chromosomes[0].coef_[0]
+
+
+	modu = np.linalg.norm(u)
+	modw = np.linalg.norm(w)
+	
+	u = u/modu
+	w = w/modw
+
+	if(np.dot(u,w) < 0):
+		u = -u
+
+	res = np.zeros(u.shape)
+
+	for i in range(0,len(u)):
+		res[i] = (c1*u[i] + c2*w[i])/(c1+c2)
+
+
+	res = res/np.linalg.norm(res)
+
+	p_new1.chromosomes[0].coef_ = np.array([res])
+	p_new2.chromosomes[0].coef_ = np.array([-res])
+
+	'''
+
+	return [p_new1,p_new2,p_new3,p_new4]
+
+
+def cross6(p1,p2,i,c1,c2):
+
+
+	p_new1 = v.genCharsChrom(i)
+	p_new2 = v.genCharsChrom(i)
+
+
+	u = p1.chromosomes[0].intercept_[0]
+	w = p2.chromosomes[0].intercept_[0]
+
+
+	res = (c1*u+c2*w)/(c1+c2)
+
+	p_new1.chromosomes[0].intercept_ = np.array([res])
+
+
+	return [p_new1,p_new2]

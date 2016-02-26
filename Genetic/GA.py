@@ -164,7 +164,7 @@ def runGA(kwargs, testmode=False):
 
 		b = v.forward()
 
-		a = fitness.scoreBest(pop,SCORES)		
+		a = fitness.scoreBest1(pop,SCORES)		
 		
 		acc.append(a) 
 		
